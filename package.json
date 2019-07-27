@@ -1,0 +1,35 @@
+{
+  "name": "audit-resolver-core",
+  "version": "1.0.0",
+  "description": "Core modules for audit-resolve.json file and logic of its processing",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "keywords": [
+    "npm",
+    "audit",
+    "security",
+    "dependencies",
+    "nsp",
+    "check",
+    "resolve"
+  ],
+  "author": "naugtur <naugtur@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naugtur/audit-resolve-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/naugtur/audit-resolve-core/issues"
+  },
+  "homepage": "https://github.com/naugtur/audit-resolve-core#readme",
+  "license": "Apache 2.0",
+  "dependencies": {
+    "concat-stream": "^1.6.2",
+    "djv": "^2.1.2",
+    "spawn-shell": "^2.1.0",
+    "yargs-parser": "^10.1.0"
+  },
+  "devDependencies": {
+  }
+}
