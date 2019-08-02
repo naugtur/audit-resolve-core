@@ -1,3 +1,4 @@
+const debug = require('debug')('audit-resolve-core')
 const argv = require('../arguments')
 const djv = require('djv')
 const path = require('path')
@@ -57,7 +58,9 @@ function parseResolutionsData(rawdata) {
 
 module.exports = {
     load(pathOverride) {
-        const rawdata = fs.readFileSync(resolutionFilePath(pathOverride));
+        const filePath = resolutionFilePath(pathOverride)
+        debug('loading from ', filePath)
+        const rawdata = fs.readFileSync(filePath)
         return parseResolutionsData(rawdata)
     },
     save({ decisions, rules }, pathOverride) {

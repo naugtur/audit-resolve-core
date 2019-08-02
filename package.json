@@ -3,7 +3,8 @@
   "version": "1.1.1",
   "description": "Core modules for audit-resolve.json file and logic of its processing",
   "scripts": {
-    "test": "node test/index.js"
+    "test": "mv audit-resolve.json ~ar.json && node test/index.js",
+    "debug": "DEBUG=audit-resolve-core npm test"
   },
   "keywords": [
     "npm",
@@ -26,6 +27,7 @@
   "license": "Apache 2.0",
   "dependencies": {
     "concat-stream": "^1.6.2",
+    "debug": "^4.1.1",
     "djv": "^2.1.2",
     "spawn-shell": "^2.1.0",
     "yargs-parser": "^10.1.0"

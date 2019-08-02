@@ -1,3 +1,4 @@
+const debug = require('debug')('audit-resolve-core')
 const auditFile = require('./fileHandle')
 const RESOLUTIONS = require('../resolutions/RESOLUTIONS')
 const decision2resolution = require('../resolutions/decision2resolution')
@@ -6,16 +7,20 @@ let rules = {};
 
 const buildKey = ({ id, path }) => `${id}|${path}`;
 
-function load() {
+function load(pathOverride) {
+    debug('load')
     if (decisionsData) {
         return
     }
     decisionsData = {} //in case loading fails, have something valid to extend and save
     try {
-        const file = auditFile.load()
+        const file = auditFile.load(pathOverride)
+        debug('resolve file loaded', file)
         rules = file.rules
         decisionsData = file.decisions
-    } catch (e) { }
+    } catch (e) {
+        debug('error loading resolve file', e)
+     }
 }
 
 const longRandomRegex = /^[a-z0-9]{64}$/

@@ -10,11 +10,18 @@ module.exports = {
     },
     extract(data) {
         return {
+            rules: {},
             decisions: Object.keys(data).reduce((acc, key) => {
                 acc[key] = { madeAt: 0 }
                 if (data[key].postpone) {
                     acc[key].decision = RESOLUTIONS.POSTPONE
                     acc[key].madeAt = data[key].postpone - MILIS24H
+                }
+                if (data[key].ignore) {
+                    acc[key].decision = RESOLUTIONS.IGNORE
+                }
+                if (data[key].fix) {
+                    acc[key].decision = RESOLUTIONS.FIX
                 }
                 return acc
             }, {})
