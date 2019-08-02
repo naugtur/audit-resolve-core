@@ -1,6 +1,6 @@
 {
   "name": "audit-resolve-core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Core modules for audit-resolve.json file and logic of its processing",
   "scripts": {
     "test": "node test/index.js"
