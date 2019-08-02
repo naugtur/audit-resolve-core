@@ -1,5 +1,5 @@
 {
-  "name": "audit-resolver-core",
+  "name": "audit-resolve-core",
   "version": "1.0.0",
   "description": "Core modules for audit-resolve.json file and logic of its processing",
   "scripts": {
