@@ -40,13 +40,18 @@ module.exports = {
             shellOptions
         }).then(output => {
             try {
-                return JSON.parse(output)
+                if(typeof output === 'string'){
+                    return JSON.parse(output)
+                } else {
+                    return output
+                }
             } catch (e) {
                 console.error('failed to parse output')
                 console.error(output)
                 throw e;
             }
         })
+        //TODO: assert valid output format
     },
     fix({ pkgmanager, shellOptions, action, command }) {
         return runner(pkgmanager).fix({
