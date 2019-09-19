@@ -44,6 +44,9 @@ function saveResolution(action, { resolution, reason, expiresAt }) {
 }
 
 function dropResolvedActions(actions) {
+    if (!actions) {
+        return actions;
+    }
     return actions
         .map(addStatusToAction)
         .filter(action => {
