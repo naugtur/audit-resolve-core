@@ -3,7 +3,7 @@
   "version": "1.1.6",
   "description": "Core modules for audit-resolve.json file and logic of its processing",
   "scripts": {
-    "test": "mv audit-resolve.json ~ar.json && node test/index.js",
+    "test": "mv audit-resolve.json ~ar.json || true && node test/index.js",
     "debug": "DEBUG=audit-resolve-core npm test"
   },
   "keywords": [

@@ -17,6 +17,10 @@ module.exports = {
                     acc[key].decision = RESOLUTIONS.POSTPONE
                     acc[key].madeAt = data[key].postpone - MILIS24H
                 }
+                if (data[key].remind) {
+                    acc[key].decision = RESOLUTIONS.POSTPONE
+                    acc[key].madeAt = data[key].remind - MILIS24H
+                }
                 if (data[key].ignore) {
                     acc[key].decision = RESOLUTIONS.IGNORE
                 }
