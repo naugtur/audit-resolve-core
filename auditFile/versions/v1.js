@@ -26,8 +26,13 @@ module.exports = {
             rules: {
                 type: 'object',
                 properties:{
-                    ignoreExpiresInDays: { type: 'number' }, //should it be days or should I pull in a dependency to resolve nice text?
-                    ignoreLowSeverity: {type: 'boolean' }
+                    ignoreConfig:{
+                        type: 'object',
+                        properties:{
+                            ignoreExpiresInDays: { type: 'number' }, //should it be days or should I pull in a dependency to resolve nice text?
+                            ignoreLowSeverity: {type: 'boolean' }
+                        }
+                    }
                 }
             }
         },

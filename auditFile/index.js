@@ -2,74 +2,59 @@ const debug = require('debug')('audit-resolve-core')
 const auditFile = require('./fileHandle')
 const RESOLUTIONS = require('../resolutions/RESOLUTIONS')
 const decision2resolution = require('../resolutions/decision2resolution')
-let decisionsData = null;
-let rules = {};
+const { buildKey } = require('./identifier')
+let decisionsData = null
+let rules = {}
 
-const buildKey = ({ id, path }) => `${id}|${path}`;
-
-function load(pathOverride) {
-    debug('load')
-    if (decisionsData) {
-        return
-    }
-    decisionsData = {} //in case loading fails, have something valid to extend and save
-    try {
-        const file = auditFile.load(pathOverride)
-        debug('resolve file loaded', file)
-        rules = file.rules
-        decisionsData = file.decisions
-    } catch (e) {
-        debug('error loading resolve file', e)
-     }
-}
-
-const longRandomRegex = /^[a-z0-9]{64}$/
-// I'm still hoping this can be removed if audit results get it fixed for git packages
-function pathCorruptionWorkaround(depPath) {
-    const chunks = depPath.split('>')
-    return chunks.map(c => {
-        if (c.match(longRandomRegex)) {
-            return '00unidentified'
-        } else {
-            return c
-        }
-    }).join('>')
+function load (pathOverride) {
+  debug('load')
+  if (decisionsData) {
+    return
+  }
+  decisionsData = {} // in case loading fails, have something valid to extend and save
+  try {
+    const file = auditFile.load(pathOverride)
+    debug('resolve file loaded', file)
+    rules = file.rules
+    decisionsData = file.decisions
+  } catch (e) {
+    debug('error loading resolve file', e)
+  }
 }
 
 module.exports = {
-    load,
-    getRules() {
-        // naive clone is enough to make you, dear contributor, treat this as readonly
-        return Object.assign({}, rules)
-    },
-    flush() {
-        auditFile.save({
-            decisions: decisionsData,
-            rules
-        })
-    },
-    set({ id, path }, { resolution, reason, expiresAt }) {
-        if (!RESOLUTIONS.reverseLookup[resolution]) {
-            throw Error(`invalid resolution ${resolution}`)
-        }
-        load()
-        path = pathCorruptionWorkaround(path)
-        const payload = {
-            decision: resolution,
-            madeAt: Date.now()
-        }
-        if (reason) {
-            payload.reason = reason
-        }
-        if (expiresAt) {
-            payload.expiresAt = expiresAt
-        }
-        return (decisionsData[buildKey({ id, path })] = payload);
-    },
-    get({ id, path }) {
-        load()
-        path = pathCorruptionWorkaround(path)
-        return decision2resolution(decisionsData[buildKey({ id, path })]);
+  load,
+  getRules () {
+    // naive clone is enough to make you, dear contributor, treat this as readonly
+    return Object.assign({}, rules)
+  },
+  flush () {
+    auditFile.save({
+      decisions: decisionsData,
+      rules
+    })
+  },
+  set ({ id, path }, { resolution, reason, expiresAt }) {
+    if (!RESOLUTIONS.reverseLookup[resolution]) {
+      throw Error(`invalid resolution ${resolution}`)
     }
-};
-
+    const key = buildKey({ id, path })
+    load()
+    const payload = {
+      decision: resolution,
+      madeAt: Date.now()
+    }
+    if (reason) {
+      payload.reason = reason
+    }
+    if (expiresAt) {
+      payload.expiresAt = expiresAt
+    }
+    return (decisionsData[key] = payload)
+  },
+  get ({ id, path }) {
+    const key = buildKey({ id, path })
+    load()
+    return decision2resolution(decisionsData[key])
+  }
+}
