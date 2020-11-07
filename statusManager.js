@@ -41,10 +41,10 @@ function saveResolution (action, { resolution, reason, expiresAt }) {
   return auditFile.flush()
 }
 
-function checkResolution(identifierOrItem){
+function checkResolution (identifierOrItem) {
   return auditFile.get(identifierOrItem)
 }
-function setResolution(identifierOrItem, resolution){
+function setResolution (identifierOrItem, resolution) {
   return auditFile.set(identifierOrItem, resolution)
 }
 
@@ -67,8 +67,7 @@ module.exports = {
   addStatusToAction,
   saveResolution,
   // npm audit's action agnostic API
-  addResolutionStatusToItem:addStatusToAction,
+  addResolutionStatusToItem: addStatusToAction,
   checkResolution,
-  setResolution,
-  identify: require('./auditFile/identifier').identify
+  setResolution
 }

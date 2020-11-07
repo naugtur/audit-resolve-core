@@ -38,7 +38,7 @@ function validate (JSONSchema, data) {
     throw Error(`Invalid audit-resolve file. ${JSON.stringify(result, null, 2)}`)
   }
 }
-function readAndValidate(pathOverride) {
+function readAndValidate (pathOverride) {
   const filePath = resolutionFilePath(pathOverride)
   debug('loading from ', filePath)
   const rawdata = fs.readFileSync(filePath)
@@ -72,7 +72,7 @@ module.exports = {
     validate(versions[1].schema, wrappedData)
     fs.writeFileSync(defaultFilePath(pathOverride), JSON.stringify(wrappedData, null, 2))
   },
-  validateResolveFile(pathOverride){
+  validateResolveFile (pathOverride) {
     return readAndValidate(pathOverride)
   }
 }
