@@ -7,11 +7,12 @@ assert(api.RESOLUTIONS)
 assert(api.validateResolveFile)
 
 assert(api.identify)
-assert(api.checkResolution)
+assert(api.getResolution)
 assert.doesNotThrow(() => {
-  api.checkResolution(api.identify(exampleItem))
+  api.getResolution(api.identify(exampleItem))
 })
-assert(api.setResolution)
-assert(api.addResolutionStatusToItem)
+assert(api.saveResolution)
+assert(api.get)
+assert(api.set)
 
 console.log('embedder passed')

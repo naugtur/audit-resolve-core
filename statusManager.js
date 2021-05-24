@@ -1,7 +1,7 @@
 const auditFile = require('./auditFile')
 const RESOLUTIONS = require('./resolutions/RESOLUTIONS')
 
-const decision2resolution = require('../resolutions/decision2resolution')
+const decision2resolution = require('./resolutions/decision2resolution')
 
 /**
  *
