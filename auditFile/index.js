@@ -1,7 +1,6 @@
 const debug = require('debug')('audit-resolve-core')
 const auditFile = require('./fileHandle')
 const RESOLUTIONS = require('../resolutions/RESOLUTIONS')
-const decision2resolution = require('../resolutions/decision2resolution')
 const { buildKey } = require('./identifier')
 let decisionsData = null
 let rules = {}
@@ -55,6 +54,6 @@ module.exports = {
   get ({ id, path }) {
     const key = buildKey({ id, path })
     load()
-    return decision2resolution(decisionsData[key])
+    return decisionsData[key]
   }
 }

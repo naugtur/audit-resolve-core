@@ -1,73 +1,66 @@
 const auditFile = require('./auditFile')
 const RESOLUTIONS = require('./resolutions/RESOLUTIONS')
 
-const { printSkipping } = require('./views/main')
+const decision2resolution = require('../resolutions/decision2resolution')
 
-function addStatusToAction (action) {
-  let unresolved = false
-  action.resolves.map(re => {
-    const status = auditFile.get({ id: re.id, path: re.path })
-    if (status) {
-      re.decision = status
-      if (status === RESOLUTIONS.FIX) {
-        // should have been fixed!
-        unresolved = true
-      }
-      if (status === RESOLUTIONS.EXPIRED) {
-        unresolved = true
-      }
-      if (status === RESOLUTIONS.NONE) {
-        unresolved = true
-      }
-    } else {
-      unresolved = true
-    }
-    return re
-  })
-  action.isMarkedResolved = !unresolved
-  return action
-}
-
-function saveResolution (action, { resolution, reason, expiresAt }) {
+/**
+ *
+ *
+ * @param {Array<{id: string, path:string}>} items
+ * @param { resolution: string, reason?:string, expiresAt:number }
+ * @returns void
+ */
+function saveResolution (items, { resolution, reason, expiresAt }) {
   // default expiry rules
   if (!expiresAt && resolution === RESOLUTIONS.IGNORE && auditFile.getRules().ignoreConfig.ignoreExpiresInDays) {
     expiresAt = auditFile.getRules().ignoreConfig.ignoreExpiresInDays * 24 * 60 * 60 * 1000
   }
-  action.resolves.map(re => auditFile.set(
-    { id: re.id, path: re.path },
+  items.map(item => auditFile.set(
+    { id: item.id, path: item.path },
     { resolution, reason, expiresAt }
   ))
 
   return auditFile.flush()
 }
 
-function checkResolution (identifierOrItem) {
+/**
+ *
+ * @param {string} identifierOrItem.id
+ * @param {string} identifierOrItem.path
+ * @returns { resolution: string, reason?:string, expiresAt:number }
+ */
+function get (identifierOrItem) {
   return auditFile.get(identifierOrItem)
 }
-function setResolution (identifierOrItem, resolution) {
+
+/**
+ *
+ * @param {string} identifierOrItem.id
+ * @param {string} identifierOrItem.path
+ * @returns {string} resolution
+ */
+function getResolution ({ id, path }) {
+  const data = auditFile.get({ id, path })
+  return decision2resolution(data)
+}
+
+/**
+ *
+ *
+ * @param {string} identifierOrItem.id
+ * @param {string} identifierOrItem.path
+ * @param {string} resolution.resolution
+ * @param [string] resolution.reason
+ * @param [number] resolution.expiresAt
+ * @returns
+ */
+function set (identifierOrItem, resolution) {
   return auditFile.set(identifierOrItem, resolution)
 }
 
-function dropResolvedActions (actions) {
-  if (!actions) {
-    return actions
-  }
-  return actions
-    .map(addStatusToAction)
-    .filter(action => {
-      if (action.isMarkedResolved) {
-        printSkipping(action)
-      }
-      return !action.isMarkedResolved
-    })
-}
-
 module.exports = {
-  dropResolvedActions,
-  addStatusToAction,
   saveResolution,
-  // npm audit's action agnostic API
-  addResolutionStatusToItem: addStatusToAction,
-  checkResolution,
-  setResolution
+  getResolution,
+  get,
+  set
 }
