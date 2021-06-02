@@ -12,8 +12,6 @@
     "audit",
     "security",
     "dependencies",
-    "nsp",
-    "check",
     "resolve"
   ],
   "author": "naugtur <naugtur@gmail.com>",
