@@ -1,6 +1,6 @@
 {
   "name": "audit-resolve-core",
-  "version": "3.0.0-1",
+  "version": "3.0.0-2",
   "description": "Core modules for audit-resolve.json file and logic of its processing",
   "scripts": {
     "test": "mv audit-resolve.json ~ar.json || true && node test/index.js",
