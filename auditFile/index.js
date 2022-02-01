@@ -25,7 +25,7 @@ module.exports = {
   load,
   getRules () {
     // naive clone is enough to make you, dear contributor, treat this as readonly
-    return Object.assign({}, rules)
+    return Object.assign({ignoreConfig:{}}, rules)
   },
   flush () {
     auditFile.save({
