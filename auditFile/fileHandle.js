@@ -50,6 +50,18 @@ function readAndValidate (pathOverride) {
   if (!versions[version]) {
     throw Error(`Unrecognized ${FILE.FILENAME} content version ${version}`)
   }
+  if (data.version > 0 && data.requireReason && data.requireReason !== "false") {
+    versions[version].schema.properties.decisions.additionalProperties.required.push('reason')
+    versions[version].schema.properties.decisions.additionalProperties.properties.reason.minLength = 1
+    if (data.requireReason !== true && data.requireReason !== "true") {
+      try {
+        new RegExp(data.requireReason)
+        versions[version].schema.properties.decisions.additionalProperties.properties.reason.pattern = data.requireReason
+      } catch (err) {
+        throw Error(`audit-resolve "requireReason" must be a boolean or a valid regex. Got ${data.requireReason}`)
+      }
+    }
+  }
   validate(versions[version].schema, data)
   return data
 }
