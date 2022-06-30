@@ -14,7 +14,7 @@ module.exports = function decision2resolution (item, rules) {
       try {
         requireReasonRe = new RegExp(rules.requireReasonMatch)
       } catch (err) {
-        throw Error(`audit-resolve "rules.requireReasonMatch" must be a valid regex. Got ${rules.requireReasonMatch}`)
+        throw Error(`audit-resolve "rules.requireReasonMatch" must be a valid JS regex. Got ${rules.requireReasonMatch}`)
       }
       if (!item.reason.match(requireReasonRe)) {
         return RESOLUTIONS.REASON_MISMATCH
