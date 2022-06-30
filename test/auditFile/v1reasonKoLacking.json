@@ -1,6 +1,8 @@
 {
     "version": 1,
-    "requireReason": true,
+    "rules": {
+        "requireReason": true
+    },
     "decisions": {
         "123|unnecessary>lodash": {
             "decision": "none",

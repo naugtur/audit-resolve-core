@@ -1,6 +1,9 @@
 {
     "version": 1,
-    "requireReason": "^.+. I promise.$",
+    "rules": {
+        "requireReason": true,
+        "requireReasonMatch": "^.+. I promise.$"
+    },
     "decisions": {
         "123|lodash": {
             "decision": "fix",

@@ -32,7 +32,9 @@ module.exports = {
               ignoreExpiresInDays: { type: 'number' }, // should it be days or should I pull in a dependency to resolve nice text?
               ignoreLowSeverity: { type: 'boolean' }
             }
-          }
+          },
+          requireReason: { type: 'boolean' },
+          requireReasonMatch: { type: 'string' }
         }
       }
     },
