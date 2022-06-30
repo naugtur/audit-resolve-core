@@ -41,7 +41,8 @@ function get (identifierOrItem) {
  */
 function getResolution ({ id, path }) {
   const data = auditFile.get({ id, path })
-  return decision2resolution(data)
+  const rules = auditFile.getRules()
+  return decision2resolution(data, rules)
 }
 
 /**
