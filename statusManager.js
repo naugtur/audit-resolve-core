@@ -2,6 +2,7 @@ const auditFile = require('./auditFile')
 const RESOLUTIONS = require('./resolutions/RESOLUTIONS')
 
 const decision2resolution = require('./resolutions/decision2resolution')
+const decision2validation = require('./validations/decision2validation')
 
 /**
  *
@@ -41,8 +42,19 @@ function get (identifierOrItem) {
  */
 function getResolution ({ id, path }) {
   const data = auditFile.get({ id, path })
+  return decision2resolution(data)
+}
+
+/**
+ *
+ * @param {string} identifierOrItem.id
+ * @param {string} identifierOrItem.path
+ * @returns {string} validation
+ */
+function getValidationError ({ id, path }) {
+  const data = auditFile.get({ id, path })
   const rules = auditFile.getRules()
-  return decision2resolution(data, rules)
+  return decision2validation(data, rules)
 }
 
 /**
@@ -62,6 +74,7 @@ function set (identifierOrItem, resolution) {
 module.exports = {
   saveResolution,
   getResolution,
+  getValidationError,
   get,
   set
 }
