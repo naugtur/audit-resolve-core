@@ -1,5 +1,5 @@
 require('./auditFile/schemas')
 require('./auditFile/migration')
-require('./auditFile/schema-definition')
+require('./auditFile/schemaDefinition')
 
 console.log('finished')
