@@ -1,0 +1,38 @@
+{
+  "properties": {
+    "version": {
+      "type": "number",
+      "minimum": 1
+    },
+    "decisions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "decision"
+        ],
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": ["none", "fix", "ignore", "postpone", "expired"]
+          },
+          "reason": { "type": "string" },
+          "madeAt": { "type": "number" },
+          "expiresAt": { "type": "number" }
+        }
+      }
+    },
+    "rules": {
+      "type": "object",
+      "properties":{
+        "ignoreExpiresInDays": { "type": "number" },
+        "ignoreLowSeverity": {
+          "type": "boolean" }
+      }
+    }
+  },
+  "required": [
+    "version",
+    "decisions"
+  ]
+}
