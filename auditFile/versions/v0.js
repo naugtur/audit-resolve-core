@@ -1,13 +1,9 @@
+const schema = require('./v0.schema.json');
 const RESOLUTIONS = require('../../resolutions/RESOLUTIONS')
 const MILIS24H = 1000 * 60 * 60 * 24
 
 module.exports = {
-    schema: {
-        type: "object",
-        "additionalProperties": {
-            "type": "object"
-        }
-    },
+    schema,
     extract(data) {
         return {
             rules: {},
